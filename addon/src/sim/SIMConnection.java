@@ -3,7 +3,7 @@ package sim;
 import utility.Direction;
 import utility.Pair;
 
-public class SimConnection {
+public class SIMConnection {
 	
 	public boolean detect_hazard() { }
 	

@@ -1,6 +1,7 @@
 package navigation;
 
 import map.Map;
+import sim.SIMConnection;
 import utility.Direction;
 import utility.Pair;
 import utility.RobotState;

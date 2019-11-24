@@ -3,14 +3,14 @@ package addon;
 import map.MapUpdateManager;
 import map.MapView;
 import navigation.NavigationManager;
-import sim.SimConnection;
+import sim.SIMConnection;
 import utility.Pair;
 
 public class AddOn {
 	private NavigationManager nm;
 	private MapUpdateManager mm;
 	
-	public AddOn(SimConnection sim) { }
+	public AddOn(SIMConnection sim) { }
 	
 	public void add_destination(int idx, Pair pos) { }
 	
