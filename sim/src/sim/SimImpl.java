@@ -50,7 +50,7 @@ public class SimImpl implements SimInterface {
 				this.map.set(coord.x, coord.y, Cell.HAZARD);
 			});
 		}
-		
+
 		// Same for blobs. If any overlap with hazard, it's an error.
 		// It's fine if it overlaps with robot's initial position, though.
 		if (builder.blobs != null) {
@@ -72,10 +72,10 @@ public class SimImpl implements SimInterface {
 		this.ipm_0_boundary = builder.ipm_0_prob;
 		this.ipm_2_boundary = 1.0f - builder.ipm_2_prob;
 	}
-	
+
 	// Implementation of SimInterface.
 	// For the description of these methods, see the interface side's comments.
-	
+
 	@Override
 	public int x() {
 		return this.x;
@@ -129,12 +129,12 @@ public class SimImpl implements SimInterface {
 		// try to move the robot to that cell.
 		return this.hazard_or_oob(this.x + this.dir.x(), this.y + this.dir.y());
 	}
-	
+
 	@Override
 	public boolean[] detect_blobs() {
 		boolean[] ret = new boolean[4];
 		Direction d = Direction.N;
-		for (int i = 0; i < 4; i++)  {
+		for (int i = 0; i < 4; i++) {
 			int adj_x = this.x + d.x();
 			int adj_y = this.y + d.y();
 			try {
@@ -146,9 +146,9 @@ public class SimImpl implements SimInterface {
 		}
 		return ret;
 	}
-	
+
 	// End of SimInterface Implementation
-	
+
 	// Checks if given coordinate is a hazard or out-of-bound.
 	// Useful for checking whether the robot can move into that cell.
 	private boolean hazard_or_oob(int x, int y) {
@@ -158,25 +158,28 @@ public class SimImpl implements SimInterface {
 			return true;
 		}
 	}
-	
+
 	// Returns the direction the robot is facing.
-	// This method is not specified in the specification and SimInterface, but it's useful nonetheless.
+	// This method is not specified in the specification and SimInterface, but it's
+	// useful nonetheless.
 	public Direction direction() {
 		return this.dir;
 	}
-	
+
 	// Returns the map's width.
-	// This method is not specified in the specification and SimInterface, but it's useful nonetheless.
+	// This method is not specified in the specification and SimInterface, but it's
+	// useful nonetheless.
 	public int map_width() {
 		return this.map.width();
 	}
-	
+
 	// Returns the map's height.
-	// This method is not specified in the specification and SimInterface, but it's useful nonetheless.
+	// This method is not specified in the specification and SimInterface, but it's
+	// useful nonetheless.
 	public int map_height() {
 		return this.map_height();
 	}
-	
+
 	// A pair of x coordinate and y coordinate.
 	// Used for passing in hazard and color blob coordinates via Stream.
 	public static class Coordinates {
@@ -188,7 +191,7 @@ public class SimImpl implements SimInterface {
 			this.y = y;
 		}
 	}
-	
+
 	// Builder class for SimImpl.
 	public static class Builder {
 		// Width and Height for the map, and a flag whether these have been set.
