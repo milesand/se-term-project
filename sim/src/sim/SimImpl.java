@@ -10,7 +10,7 @@ public class SimImpl implements SimInterface {
 	// Position and direction of robot.
 	private int x;
 	private int y;
-	private Direction dir;
+	private Direction direction;
 
 	// Map (duh).
 	private final Map map;
@@ -22,8 +22,8 @@ public class SimImpl implements SimInterface {
 	// On each move_front call, rng.nextFloat() is called; If the result is
 	// less than ipm_0_boundary, the robot does not move. if the result is larger
 	// than ipm_2_boundary, the robot moves two cells forward (if possible).
-	private float ipm_0_boundary;
-	private float ipm_2_boundary;
+	private float ipm0Boundary;
+	private float ipm2Boundary;
 
 	// Construction uses builder pattern, to make user code easier to read..
 	// Note that there are no public constructors; Builder is the only way to create
@@ -32,10 +32,10 @@ public class SimImpl implements SimInterface {
 		// Set robot's position and direction.
 		this.x = builder.x;
 		this.y = builder.y;
-		this.dir = builder.dir;
+		this.direction = builder.direction;
 
 		// Create map.
-		this.map = new Map(builder.map_width, builder.map_height);
+		this.map = new Map(builder.mapWidth, builder.mapHeight);
 
 		// Iterate through hazard coordinates, and mark them on the map appropriately.
 		// If the coordinate sequence is null, consider it empty.
@@ -69,8 +69,8 @@ public class SimImpl implements SimInterface {
 			this.rng = builder.rng;
 		}
 
-		this.ipm_0_boundary = builder.ipm_0_prob;
-		this.ipm_2_boundary = 1.0f - builder.ipm_2_prob;
+		this.ipm0Boundary = builder.ipm0Probability;
+		this.ipm2Boundary = 1.0f - builder.ipm2Probabilty;
 	}
 
 	// Implementation of SimInterface.
@@ -87,12 +87,12 @@ public class SimImpl implements SimInterface {
 	}
 
 	@Override
-	public boolean move_forward() {
+	public boolean moveForward() {
 		// coordinates of target cell.
-		int target_x = this.x + this.dir.x();
-		int target_y = this.y + this.dir.y();
+		int targetX = this.x + this.direction.x();
+		int targetY = this.y + this.direction.y();
 
-		if (this.hazard_or_oob(target_x, target_y)) {
+		if (this.hazardOrOob(targetX, targetY)) {
 			return false;
 		}
 
@@ -100,49 +100,49 @@ public class SimImpl implements SimInterface {
 		float r = this.rng.nextFloat();
 
 		// If not larger than ipm_0_boundary, do nothing.
-		if (r > this.ipm_0_boundary) {
-			if (r > this.ipm_2_boundary) {
+		if (r > this.ipm0Boundary) {
+			if (r > this.ipm2Boundary) {
 				// Check the cell two cells forward. If not OOB or Hazard,
 				// Move to that cell.
-				int imp_x = target_x + this.dir.x();
-				int imp_y = target_y + this.dir.y();
-				if (!this.hazard_or_oob(imp_x, imp_y)) {
-					target_x = imp_x;
-					target_y = imp_y;
+				int impX = targetX + this.direction.x();
+				int impY = targetY + this.direction.y();
+				if (!this.hazardOrOob(impX, impY)) {
+					targetX = impX;
+					targetY = impY;
 				}
 			}
-			this.x = target_x;
-			this.y = target_y;
+			this.x = targetX;
+			this.y = targetY;
 		}
 		return true;
 	}
 
 	@Override
-	public void turn_cw() {
-		this.dir = this.dir.next_clockwise();
+	public void turnClockwise() {
+		this.direction = this.direction.nextClockwise();
 	}
 
 	@Override
-	public boolean detect_hazard() {
+	public boolean detectHazard() {
 		// NOTE: we'll consider OOB case a hazard, since
 		// they're pretty much the same in that it's an error to
 		// try to move the robot to that cell.
-		return this.hazard_or_oob(this.x + this.dir.x(), this.y + this.dir.y());
+		return this.hazardOrOob(this.x + this.direction.x(), this.y + this.direction.y());
 	}
 
 	@Override
-	public boolean[] detect_blobs() {
+	public boolean[] detectBlobs() {
 		boolean[] ret = new boolean[4];
 		Direction d = Direction.N;
 		for (int i = 0; i < 4; i++) {
-			int adj_x = this.x + d.x();
-			int adj_y = this.y + d.y();
+			int adjX = this.x + d.x();
+			int adjY = this.y + d.y();
 			try {
-				ret[i] = this.map.get(adj_x, adj_y).equals(Cell.COLOR_BLOB);
+				ret[i] = this.map.get(adjX, adjY).equals(Cell.COLOR_BLOB);
 			} catch (IndexOutOfBoundsException e) {
 				ret[i] = false;
 			}
-			d = d.next_clockwise();
+			d = d.nextClockwise();
 		}
 		return ret;
 	}
@@ -151,7 +151,7 @@ public class SimImpl implements SimInterface {
 
 	// Checks if given coordinate is a hazard or out-of-bound.
 	// Useful for checking whether the robot can move into that cell.
-	private boolean hazard_or_oob(int x, int y) {
+	private boolean hazardOrOob(int x, int y) {
 		try {
 			return this.map.get(x, y).equals(Cell.HAZARD);
 		} catch (IndexOutOfBoundsException e) {
@@ -163,7 +163,7 @@ public class SimImpl implements SimInterface {
 	// This method is not specified in the specification and SimInterface, but it's
 	// useful nonetheless.
 	public Direction direction() {
-		return this.dir;
+		return this.direction;
 	}
 
 	// Returns the map's width.
@@ -195,15 +195,15 @@ public class SimImpl implements SimInterface {
 	// Builder class for SimImpl.
 	public static class Builder {
 		// Width and Height for the map, and a flag whether these have been set.
-		private int map_width;
-		private int map_height;
-		private boolean map_size_set;
+		private int mapWidth;
+		private int mapHeight;
+		private boolean mapSizeSet;
 
 		private int x;
 		private int y;
-		private boolean robot_position_set;
+		private boolean robotPositionSet;
 
-		private Direction dir;
+		private Direction direction;
 
 		private Stream<Coordinates> hazards;
 		private Stream<Coordinates> blobs;
@@ -212,10 +212,10 @@ public class SimImpl implements SimInterface {
 		private Random rng;
 		// Probability of imperfect motion where move_forward doesn't move the robot
 		// forward.
-		private float ipm_0_prob = 0.1f;
+		private float ipm0Probability = 0.1f;
 		// Probability of imperfect motion where move_forward moves the robot two cells
 		// forward.
-		private float ipm_2_prob = 0.1f;
+		private float ipm2Probabilty = 0.1f;
 
 		public Builder() {
 			// Note: default values are false for boolean,
@@ -223,17 +223,17 @@ public class SimImpl implements SimInterface {
 		}
 
 		// Set the size of the map.
-		public void map_size(int map_width, int map_height) {
-			if (map_width <= 0 || map_height <= 0) {
-				throw new IllegalArgumentException(String.format("Illegal Map Size: (%d, %d)", map_width, map_height));
+		public void mapSize(int mapWidth, int mapHeight) {
+			if (mapWidth <= 0 || mapHeight <= 0) {
+				throw new IllegalArgumentException(String.format("Illegal Map Size: (%d, %d)", mapWidth, mapHeight));
 			}
-			this.map_width = map_width;
-			this.map_height = map_height;
-			this.map_size_set = true;
+			this.mapWidth = mapWidth;
+			this.mapHeight = mapHeight;
+			this.mapSizeSet = true;
 		}
 
 		// Set the robot's initial position.
-		public void robot_pos(int x, int y) {
+		public void robotPosition(int x, int y) {
 			if (x < 0) {
 				throw new IllegalArgumentException(String.format("Negative initial x coordinate: %d", x));
 			}
@@ -242,12 +242,12 @@ public class SimImpl implements SimInterface {
 			}
 			this.x = x;
 			this.y = y;
-			this.robot_position_set = true;
+			this.robotPositionSet = true;
 		}
 
 		// Set the initial direction the robot is facing.
-		public void robot_dir(Direction dir) {
-			this.dir = dir;
+		public void robotDirection(Direction direction) {
+			this.direction = direction;
 		}
 
 		// Set the list of hazards. If not set, no hazards will be placed.
@@ -268,45 +268,45 @@ public class SimImpl implements SimInterface {
 		// Set the probability of imperfect motion where move_forward doesn't move the
 		// robot happening.
 		// Default value is 0.1 (10%).
-		public void set_no_movement_probability(float prob) {
+		public void setNoMovementProbability(float prob) {
 			if (prob < 0.0f || 1.0f < prob) {
 				throw new IllegalArgumentException(String.format("Invalid probability: %f", prob));
 			}
-			this.ipm_0_prob = prob;
+			this.ipm0Probability = prob;
 		}
 
 		// Set the probability of imperfect motion where move_forward doesn't move the
 		// robot happening.
 		// Default value is 0.1 (10%).
-		public void set_double_forward_probability(float prob) {
+		public void setDoubleForwardProbability(float prob) {
 			if (prob < 0.0f || 1.0f < prob) {
 				throw new IllegalArgumentException(String.format("Invalid probability: %f", prob));
 			}
-			this.ipm_2_prob = prob;
+			this.ipm2Probabilty = prob;
 		}
 
 		public SimImpl build() {
-			if (!this.map_size_set) {
+			if (!this.mapSizeSet) {
 				throw new IllegalStateException("Size of the map has not been set");
 			}
 
-			if (!this.robot_position_set) {
+			if (!this.robotPositionSet) {
 				throw new IllegalStateException("Position of the robot has not been set");
 			}
 
-			if (this.dir == null) {
+			if (this.direction == null) {
 				throw new IllegalStateException("Direction the robot is facing has not been set");
 			}
 
-			if (this.map_width <= this.x || this.map_height <= this.y) {
+			if (this.mapWidth <= this.x || this.mapHeight <= this.y) {
 				throw new IndexOutOfBoundsException(
 						String.format("Coordinates (%d, %d) out of bounds for map size (%d, %d)", this.x, this.y,
-								this.map_width, this.map_height));
+								this.mapWidth, this.mapHeight));
 			}
 
-			if (this.ipm_0_prob > 1.0f - this.ipm_2_prob) {
+			if (this.ipm0Probability > 1.0f - this.ipm2Probabilty) {
 				throw new IllegalArgumentException(String.format("Invalid sum for imperfect motion probabilities: %f",
-						this.ipm_0_prob + this.ipm_2_prob));
+						this.ipm0Probability + this.ipm2Probabilty));
 			}
 
 			return new SimImpl(this);

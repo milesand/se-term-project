@@ -11,7 +11,7 @@ public enum Direction {
 		}
 
 		@Override
-		public Direction next_clockwise() {
+		public Direction nextClockwise() {
 			return E;
 		}
 	},
@@ -25,7 +25,7 @@ public enum Direction {
 		}
 
 		@Override
-		public Direction next_clockwise() {
+		public Direction nextClockwise() {
 			return S;
 		}
 	},
@@ -39,7 +39,7 @@ public enum Direction {
 		}
 
 		@Override
-		public Direction next_clockwise() {
+		public Direction nextClockwise() {
 			return W;
 		}
 	},
@@ -53,7 +53,7 @@ public enum Direction {
 		}
 
 		@Override
-		public Direction next_clockwise() {
+		public Direction nextClockwise() {
 			return N;
 		}
 	};
@@ -62,5 +62,5 @@ public enum Direction {
 
 	public abstract int y();
 
-	public abstract Direction next_clockwise();
+	public abstract Direction nextClockwise();
 }

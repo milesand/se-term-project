@@ -21,15 +21,15 @@ public interface SimInterface {
 	// cells forward, due to 'imperfect motion'. The latter case of imperfect
 	// motion will never occur if it would result in the robot getting out of
 	// map boundary or moving into a hazard.
-	boolean move_forward();
+	boolean moveForward();
 
 	// Rotates the robot 90 degrees, clockwise.
-	void turn_cw();
+	void turnClockwise();
 
 	// Returns true if the forward cell is HAZARD.
-	boolean detect_hazard();
+	boolean detectHazard();
 
 	// Returns 4 booleans each indicating whether the north, east, south, and
 	// west cells are color blobs.
-	boolean[] detect_blobs();
+	boolean[] detectBlobs();
 }
