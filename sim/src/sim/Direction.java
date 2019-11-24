@@ -9,6 +9,11 @@ public enum Direction {
 		public int y() {
 			return 1;
 		}
+
+		@Override
+		public Direction next_clockwise() {
+			return E;
+		}
 	},
 	E {
 		public int x() {
@@ -17,6 +22,11 @@ public enum Direction {
 
 		public int y() {
 			return 0;
+		}
+
+		@Override
+		public Direction next_clockwise() {
+			return S;
 		}
 	},
 	S {
@@ -27,6 +37,11 @@ public enum Direction {
 		public int y() {
 			return -1;
 		}
+
+		@Override
+		public Direction next_clockwise() {
+			return W;
+		}
 	},
 	W {
 		public int x() {
@@ -36,9 +51,16 @@ public enum Direction {
 		public int y() {
 			return 0;
 		}
+
+		@Override
+		public Direction next_clockwise() {
+			return N;
+		}
 	};
 
 	public abstract int x();
 
 	public abstract int y();
+
+	public abstract Direction next_clockwise();
 }

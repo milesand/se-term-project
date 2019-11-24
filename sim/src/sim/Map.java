@@ -28,21 +28,19 @@ class Map {
 			this.cells.add(Cell.EMPTY);
 		}
 	}
-	
-	// Turn a coordinate into an index for internal use.
-	// Throws IndexOutOfBounds if either component of the coordinate is out of bounds.
-	private int index(int x, int y) {
-		if (x < 0 || this.width <= x) {
-			throw new IndexOutOfBoundsException(String.format("Index %d out of bounds for width %d", x, this.width));
-		}
 
-		if (y < 0 || this.height <= y) {
-			throw new IndexOutOfBoundsException(String.format("Index %d out of bounds for width %d", y, this.height));
+	// Turn a coordinate into an index for internal use.
+	// Throws IndexOutOfBounds if either component of the coordinate is out of
+	// bounds.
+	private int index(int x, int y) {
+		if (x < 0 || this.width <= x || y < 0 || this.height <= y) {
+			throw new IndexOutOfBoundsException(String
+					.format("Coordinates (%d, %d) out of bounds for map size (%d, %d)", x, y, this.width, this.height));
 		}
 
 		return y * this.width + x;
 	}
-	
+
 	// Returns a cell state for given coordinate.
 	//
 	public Cell get(int x, int y) {
