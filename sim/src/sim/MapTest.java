@@ -69,7 +69,7 @@ class MapTest {
 			}
 		}
 	}
-	
+
 	@Test
 	void mapSetThrowTest() {
 		Map map = new Map(TEST_MAP_WIDTH, TEST_MAP_HEIGHT);
@@ -78,14 +78,14 @@ class MapTest {
 				final int x = _x;
 				final int y = _y;
 				if (x < 0 || x >= TEST_MAP_WIDTH || y < 0 || y >= TEST_MAP_HEIGHT) {
-					for (Cell _c: Cell.values()) {
+					for (Cell _c : Cell.values()) {
 						final Cell c = _c;
 						assertThrows(IndexOutOfBoundsException.class, () -> {
 							map.set(x, y, c);
 						});
 					}
 				} else {
-					for (Cell _c: Cell.values()) {
+					for (Cell _c : Cell.values()) {
 						final Cell c = _c;
 						assertDoesNotThrow(() -> {
 							map.set(x, y, c);
@@ -95,13 +95,13 @@ class MapTest {
 			}
 		}
 	}
-	
+
 	@RepeatedTest(100)
 	void mapGetSetTest(RepetitionInfo repetitionInfo) {
 		Map map = new Map(TEST_MAP_WIDTH, TEST_MAP_HEIGHT);
 		Cell[] cells = Cell.values();
-		final long SEED = (long)repetitionInfo.getCurrentRepetition();
-		
+		final long SEED = (long) repetitionInfo.getCurrentRepetition();
+
 		Random rng = new Random(SEED);
 		for (int x = 0; x < TEST_MAP_WIDTH; x++) {
 			for (int y = 0; y < TEST_MAP_HEIGHT; y++) {
@@ -109,7 +109,7 @@ class MapTest {
 				map.set(x, y, cells[i]);
 			}
 		}
-		
+
 		rng.setSeed(SEED);
 		for (int x = 0; x < TEST_MAP_WIDTH; x++) {
 			for (int y = 0; y < TEST_MAP_HEIGHT; y++) {
