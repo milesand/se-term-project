@@ -10,7 +10,7 @@ class Map {
 	private int height;
 
 	// Initialize Map of empty cells, with given width and height.
-	Map(int width, int height) {
+	public Map(int width, int height) {
 
 		if (width <= 0) {
 			throw new IllegalArgumentException(String.format("Illegal Width: %d", width));
