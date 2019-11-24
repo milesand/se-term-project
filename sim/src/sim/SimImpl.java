@@ -223,17 +223,18 @@ public class SimImpl implements SimInterface {
 		}
 
 		// Set the size of the map.
-		public void mapSize(int mapWidth, int mapHeight) {
+		public Builder mapSize(int mapWidth, int mapHeight) {
 			if (mapWidth <= 0 || mapHeight <= 0) {
 				throw new IllegalArgumentException(String.format("Illegal Map Size: (%d, %d)", mapWidth, mapHeight));
 			}
 			this.mapWidth = mapWidth;
 			this.mapHeight = mapHeight;
 			this.mapSizeSet = true;
+			return this;
 		}
 
 		// Set the robot's initial position.
-		public void robotPosition(int x, int y) {
+		public Builder robotPosition(int x, int y) {
 			if (x < 0) {
 				throw new IllegalArgumentException(String.format("Negative initial x coordinate: %d", x));
 			}
@@ -243,46 +244,53 @@ public class SimImpl implements SimInterface {
 			this.x = x;
 			this.y = y;
 			this.robotPositionSet = true;
+			return this;
 		}
 
 		// Set the initial direction the robot is facing.
-		public void robotDirection(Direction direction) {
+		public Builder robotDirection(Direction direction) {
 			this.direction = direction;
+			return this;
 		}
 
 		// Set the list of hazards. If not set, no hazards will be placed.
-		public void hazards(Stream<Coordinates> hazards) {
+		public Builder hazards(Stream<Coordinates> hazards) {
 			this.hazards = hazards;
+			return this;
 		}
 
 		// Set the list of color blobs. If not set, no color blobs will be placed.
-		public void blobs(Stream<Coordinates> blobs) {
+		public Builder blobs(Stream<Coordinates> blobs) {
 			this.blobs = blobs;
+			return this;
 		}
 
 		// Set the RNG for simulating imperfect motion.
-		public void rng(Random rng) {
+		public Builder rng(Random rng) {
 			this.rng = rng;
+			return this;
 		}
 
 		// Set the probability of imperfect motion where move_forward doesn't move the
 		// robot happening.
 		// Default value is 0.1 (10%).
-		public void setNoMovementProbability(float prob) {
+		public Builder setNoMovementProbability(float prob) {
 			if (prob < 0.0f || 1.0f < prob) {
 				throw new IllegalArgumentException(String.format("Invalid probability: %f", prob));
 			}
 			this.ipm0Probability = prob;
+			return this;
 		}
 
 		// Set the probability of imperfect motion where move_forward doesn't move the
 		// robot happening.
 		// Default value is 0.1 (10%).
-		public void setDoubleForwardProbability(float prob) {
+		public Builder setDoubleForwardProbability(float prob) {
 			if (prob < 0.0f || 1.0f < prob) {
 				throw new IllegalArgumentException(String.format("Invalid probability: %f", prob));
 			}
 			this.ipm2Probabilty = prob;
+			return this;
 		}
 
 		public SimImpl build() {
