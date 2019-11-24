@@ -1,5 +1,8 @@
 package map;
 
+import utility.Pair;
+import utility.RobotState;
+
 public class MapUpdateManager {
 	private SIMConnection sim;
 	private Map map;

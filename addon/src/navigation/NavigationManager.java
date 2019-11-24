@@ -1,5 +1,10 @@
 package navigation;
 
+import map.Map;
+import utility.Direction;
+import utility.Pair;
+import utility.RobotState;
+
 public class NavigationManager {
 	
 	private SIMConnection sim;

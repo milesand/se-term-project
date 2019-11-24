@@ -1,5 +1,8 @@
 package sim;
 
+import utility.Direction;
+import utility.Pair;
+
 public class SimConnection {
 	
 	public boolean detect_hazard() { }

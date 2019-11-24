@@ -1,5 +1,7 @@
 package navigation;
 
+import utility.Pair;
+
 public class PositionList {
 	private Pair[] pos;
 	private int next_idx;

@@ -1,5 +1,7 @@
 package map;
 
+import utility.Pair;
+
 public class Map {
 	private Cell[] cells;
 	private Pair size;

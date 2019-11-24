@@ -1,5 +1,7 @@
 package map;
 
+import utility.OptionalBool;
+
 public class CellView {
 	private Cell inner;
 	

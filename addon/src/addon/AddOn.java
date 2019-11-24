@@ -1,5 +1,11 @@
 package addon;
 
+import map.MapUpdateManager;
+import map.MapView;
+import navigation.NavigationManager;
+import sim.SimConnection;
+import utility.Pair;
+
 public class AddOn {
 	private NavigationManager nm;
 	private MapUpdateManager mm;

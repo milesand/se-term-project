@@ -1,5 +1,7 @@
 package map;
 
+import utility.OptionalBool;
+
 public class Cell {
 	private OptionalBool hazard;
 	private OptionalBool blob;

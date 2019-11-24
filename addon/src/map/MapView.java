@@ -1,5 +1,7 @@
 package map;
 
+import utility.Pair;
+
 public class MapView {
 	private Map inner;
 	
