@@ -238,7 +238,7 @@ public class SimImpl implements SimInterface {
 			if (x < 0) {
 				throw new IllegalArgumentException(String.format("Negative initial x coordinate: %d", x));
 			}
-			if (x < 0) {
+			if (y < 0) {
 				throw new IllegalArgumentException(String.format("Negative initial y coordinate: %d", y));
 			}
 			this.x = x;
