@@ -1,7 +1,5 @@
 package sim;
 
-import java.lang.IllegalArgumentException;
-import java.lang.IndexOutOfBoundsException;
 import java.util.ArrayList;
 
 class Map {

@@ -1,8 +1,5 @@
 package sim;
 
-import java.lang.IndexOutOfBoundsException;
-import java.lang.IllegalArgumentException;
-import java.lang.IllegalStateException;
 import java.util.stream.Stream;
 import java.util.Random;
 
