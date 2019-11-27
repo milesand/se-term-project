@@ -13,19 +13,19 @@ public class MapManager {
 	public void mark_blobs() {
 	}
 
-	public boolean check_hazard() {
+	public boolean checkHazard() {
 	}
 
-	public void set_hazard(Pair pos) {
+	public void setHazard(Pair pos) {
 	}
 
-	public void unset_hazard(Pair pos) {
+	public void unsetHazard(Pair pos) {
 	}
 
-	public MapView map_view() {
+	public MapView mapView() {
 	}
 
-	public void invalidate_position() {
+	public void invalidatePosition() {
 	}
 
 	public Pair position() {
@@ -36,7 +36,7 @@ public class MapManager {
 		return this.dir;
 	}
 
-	public void set_direction(Direction dir) {
+	public void setDirection(Direction dir) {
 		this.dir = dir;
 	}
 }

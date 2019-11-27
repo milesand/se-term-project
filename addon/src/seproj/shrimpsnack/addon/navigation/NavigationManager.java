@@ -17,22 +17,22 @@ public class NavigationManager {
 	public Pair[] navigate() {
 	}
 
-	public void add_destination(int idx, Pair pos) {
+	public void addDestination(int idx, Pair pos) {
 	}
 
-	public Pair remove_destination(int idx) {
+	public Pair removeDestination(int idx) {
 	}
 
-	public Pair[] destinations_view() {
+	public Pair[] destinationsView() {
 	}
 
-	private void move_forward() {
+	private void moveForward() {
 	}
 
-	private void turn_to(Direction dir) {
+	private void turnTo(Direction dir) {
 	}
 
-	private void plan_path() {
+	private void planPath() {
 	}
 
 }

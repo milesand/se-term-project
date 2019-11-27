@@ -13,22 +13,22 @@ public class AddOn {
 	public AddOn(SIMConnection sim) {
 	}
 
-	public void add_destination(int idx, Pair pos) {
+	public void addDestination(int idx, Pair pos) {
 	}
 
-	public Pair remove_destination(int idx) {
+	public Pair removeDestination(int idx) {
 	}
 
-	public Pair[] destinations_view() {
+	public Pair[] destinationsView() {
 	}
 
-	public void add_hazard(Pair pos) {
+	public void addHazard(Pair pos) {
 	}
 
-	public void remove_hazard(Pair pos) {
+	public void removeHazard(Pair pos) {
 	}
 
-	public MapView map_view() {
+	public MapView mapView() {
 	}
 
 	public Pair[] navigate() {

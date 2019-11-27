@@ -5,22 +5,22 @@ import seproj.shrimpsnack.addon.utility.Pair;
 
 public class SocketSIMConnection implements SIMConnection {
 
-	public boolean detect_hazard() {
+	public boolean detectHazard() {
 	}
 
-	public boolean[] detect_blob() {
+	public boolean[] detectBlob() {
 	}
 
-	public Pair get_position() {
+	public Pair getPosition() {
 	}
 
-	public Direction get_direction() {
+	public Direction getDirection() {
 	}
 
-	public Pair get_size() {
+	public Pair getSize() {
 	}
 
-	public void move_forward() {
+	public void moveForward() {
 	}
 
 	public void turn() {

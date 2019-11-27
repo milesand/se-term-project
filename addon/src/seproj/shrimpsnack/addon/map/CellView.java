@@ -9,11 +9,11 @@ public class CellView {
 		this.inner = inner;
 	}
 
-	public OptionalBool is_hazard() {
+	public OptionalBool isHazard() {
 		return inner.isHazard();
 	}
 
-	public OptionalBool is_blob() {
+	public OptionalBool isBlob() {
 		return inner.isBlob();
 	}
 }

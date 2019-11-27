@@ -13,10 +13,10 @@ public class PositionList {
 		this();
 	}
 
-	public void add_pos(int idx, Pair pos) {
+	public void addPos(int idx, Pair pos) {
 	}
 
-	public Pair remove_pos(int idx) {
+	public Pair removePos(int idx) {
 	}
 
 	public Pair[] view() {

@@ -14,7 +14,7 @@ public class MapView {
 		return new CellView(cell);
 	}
 
-	public Pair get_size() {
-		return inner.get_size();
+	public Pair getSize() {
+		return inner.getSize();
 	}
 }

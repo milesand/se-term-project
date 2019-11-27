@@ -13,7 +13,7 @@ public class Map {
 	public Cell get(Pair pos) {
 	}
 
-	public Pair get_size() {
+	public Pair getSize() {
 	}
 
 }
