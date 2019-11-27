@@ -1,4 +1,4 @@
-package utility;
+package seproj.shrimpsnack.addon.utility;
 
 public class Pair {
 	public final int x;

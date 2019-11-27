@@ -1,4 +1,4 @@
-package sim;
+package seproj.shrimpsnack.sim;
 
 public enum Direction {
 	N {

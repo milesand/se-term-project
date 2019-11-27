@@ -1,8 +1,8 @@
-package map;
+package seproj.shrimpsnack.addon.map;
 
-import sim.SIMConnection;
-import utility.Direction;
-import utility.Pair;
+import seproj.shrimpsnack.addon.sim.SIMConnection;
+import seproj.shrimpsnack.addon.utility.Direction;
+import seproj.shrimpsnack.addon.utility.Pair;
 
 public class MapManager {
 	private SIMConnection sim;

@@ -1,10 +1,10 @@
-package addon;
+package seproj.shrimpsnack.addon.addon;
 
-import map.MapManager;
-import map.MapView;
-import navigation.NavigationManager;
-import sim.SIMConnection;
-import utility.Pair;
+import seproj.shrimpsnack.addon.map.MapManager;
+import seproj.shrimpsnack.addon.map.MapView;
+import seproj.shrimpsnack.addon.navigation.NavigationManager;
+import seproj.shrimpsnack.addon.sim.SIMConnection;
+import seproj.shrimpsnack.addon.utility.Pair;
 
 public class AddOn {
 	private NavigationManager nm;

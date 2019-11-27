@@ -1,6 +1,6 @@
-package map;
+package seproj.shrimpsnack.addon.map;
 
-import utility.OptionalBool;
+import seproj.shrimpsnack.addon.utility.OptionalBool;
 
 public class Cell {
 	private OptionalBool hazard;

@@ -1,6 +1,6 @@
-package map;
+package seproj.shrimpsnack.addon.map;
 
-import utility.Pair;
+import seproj.shrimpsnack.addon.utility.Pair;
 
 public class Map {
 	private Cell[] cells;

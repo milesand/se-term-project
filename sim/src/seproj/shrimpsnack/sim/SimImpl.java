@@ -1,4 +1,4 @@
-package sim;
+package seproj.shrimpsnack.sim;
 
 import java.util.stream.Stream;
 import java.util.Random;

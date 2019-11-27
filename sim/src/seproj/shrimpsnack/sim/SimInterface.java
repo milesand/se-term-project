@@ -1,4 +1,4 @@
-package sim;
+package seproj.shrimpsnack.sim;
 
 public interface SimInterface {
 	// SIM simulates a robot, and a map the robot moves in. This interface

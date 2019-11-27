@@ -1,4 +1,4 @@
-package sim;
+package seproj.shrimpsnack.sim;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

@@ -1,9 +1,9 @@
-package navigation;
+package seproj.shrimpsnack.addon.navigation;
 
-import map.MapManager;
-import sim.SIMConnection;
-import utility.Direction;
-import utility.Pair;
+import seproj.shrimpsnack.addon.map.MapManager;
+import seproj.shrimpsnack.addon.sim.SIMConnection;
+import seproj.shrimpsnack.addon.utility.Direction;
+import seproj.shrimpsnack.addon.utility.Pair;
 
 public class NavigationManager {
 

@@ -1,7 +1,7 @@
-package sim;
+package seproj.shrimpsnack.addon.sim;
 
-import utility.Direction;
-import utility.Pair;
+import seproj.shrimpsnack.addon.utility.Direction;
+import seproj.shrimpsnack.addon.utility.Pair;
 
 public class SocketSIMConnection implements SIMConnection {
 

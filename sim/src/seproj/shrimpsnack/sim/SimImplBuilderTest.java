@@ -1,4 +1,4 @@
-package sim;
+package seproj.shrimpsnack.sim;
 
 import static org.junit.jupiter.api.Assertions.*;
 
