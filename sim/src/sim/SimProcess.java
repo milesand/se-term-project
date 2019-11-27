@@ -11,45 +11,32 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class SimProcess {
-	
+
 	enum Command {
-		//0
-		SET_MAP_SIZE,
-		SET_BOT_POS,
-		SET_BOT_DIR,
-		ADD_HAZARD,
-		REMOVE_HAZARD,
+		// 0
+		SET_MAP_SIZE, SET_BOT_POS, SET_BOT_DIR, ADD_HAZARD, REMOVE_HAZARD,
 		// 5
-		ADD_BLOB,
-		REMOVE_BLOB,
-		SET_SEED,
-		SET_PROB_0,
-		SET_PROB_2,
+		ADD_BLOB, REMOVE_BLOB, SET_SEED, SET_PROB_0, SET_PROB_2,
 		// 10
 		BUILD, // End of Builder-state commands
-		
-		GET_BOT_DIR,
-		GET_MAP_SIZE,
-		GET_BOT_POS,
-		DETECT_HAZARD,
+
+		GET_BOT_DIR, GET_MAP_SIZE, GET_BOT_POS, DETECT_HAZARD,
 		// 15
-		DETECT_BLOBS,
-		MOVE_FORWARD,
-		TURN_CW;
+		DETECT_BLOBS, MOVE_FORWARD, TURN_CW;
 	}
-	
+
 	final static Command[] COMMANDS = Command.values();
 	final static Direction[] DIRECTIONS = Direction.values();
-	
+
 	final static byte OK = 0;
 	final static byte ERR = 1;
-	
+
 	public static void main(String[] args) {
 		if (args.length != 0) {
 			System.err.println("Error: Missing port argument");
 			return;
 		}
-		
+
 		int port;
 		try {
 			port = Integer.parseInt(args[0]);
@@ -57,33 +44,31 @@ public class SimProcess {
 			System.err.printf("Error: Found invalid port argument: %s\n", args[0]);
 			return;
 		}
-		
-		try (
-				ServerSocket listener = new ServerSocket(port);
-				Socket conn = listener.accept();
-		) {
+
+		try (ServerSocket listener = new ServerSocket(port); Socket conn = listener.accept();) {
 			// Create a server socket and bind it to given port.
 			// Listen until we have one connection.
-			
+
 			DataInputStream in = new DataInputStream(new BufferedInputStream(conn.getInputStream()));
 			DataOutputStream out = new DataOutputStream(new BufferedOutputStream(conn.getOutputStream()));
-			
+
 			SimImpl sim = handle_builder_request(in, out);
-			
+
 			// TODO: write the rest
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return;
 		}
 	}
-	
+
 	static SimImpl handle_builder_request(DataInputStream in, DataOutputStream out) throws IOException {
-		// Create a builder, and two sets for storing coordinates of places-of-interest, and RNG seed.
+		// Create a builder, and two sets for storing coordinates of places-of-interest,
+		// and RNG seed.
 		SimImpl.Builder builder = new SimImpl.Builder();
 		HashSet<SimImpl.Coordinates> hazards = new HashSet<SimImpl.Coordinates>();
 		HashSet<SimImpl.Coordinates> blobs = new HashSet<SimImpl.Coordinates>();
 		Long seed = null;
-		
+
 		while (true) {
 			for (byte command = in.readByte(); COMMANDS[command] != Command.BUILD; command = in.readByte()) {
 				try {
@@ -150,8 +135,9 @@ public class SimProcess {
 				out.writeByte(OK);
 				out.flush();
 			}
-			
-			// If we reached here, command equaled Command.BUILD and thus we should try building SimImpl.
+
+			// If we reached here, command equaled Command.BUILD and thus we should try
+			// building SimImpl.
 			try {
 				Random rng;
 				if (seed == null) {
@@ -159,16 +145,12 @@ public class SimProcess {
 				} else {
 					rng = new Random(seed);
 				}
-				SimImpl sim = builder
-						.hazards(hazards.stream())
-						.blobs(blobs.stream())
-						.rng(rng)
-						.build();
+				SimImpl sim = builder.hazards(hazards.stream()).blobs(blobs.stream()).rng(rng).build();
 				// Success: tell the user we've built it and return to caller.
 				out.writeByte(OK);
 				out.flush();
 				return sim;
-				
+
 			} catch (IllegalStateException | IndexOutOfBoundsException | IllegalArgumentException e) {
 				// We just signal error to user and keep looping.
 				out.writeByte(ERR);
