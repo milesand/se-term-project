@@ -45,16 +45,15 @@ public class SimProcess {
 			return;
 		}
 
+		// We'll deal with just one connection, for simplicity.
 		try (ServerSocket listener = new ServerSocket(port); Socket conn = listener.accept();) {
-			// Create a server socket and bind it to given port.
-			// Listen until we have one connection.
 
 			DataInputStream in = new DataInputStream(new BufferedInputStream(conn.getInputStream()));
 			DataOutputStream out = new DataOutputStream(new BufferedOutputStream(conn.getOutputStream()));
 
 			SimImpl sim = handle_builder_request(in, out);
+			handle_sim_request(in, out, sim);
 
-			// TODO: write the rest
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return;
@@ -155,6 +154,81 @@ public class SimProcess {
 				// We just signal error to user and keep looping.
 				out.writeByte(ERR);
 				out.flush();
+			}
+		}
+	}
+
+	static void handle_sim_request(DataInputStream in, DataOutputStream out, SimImpl sim) throws IOException {
+		while (true) {
+			byte command = in.readByte();
+			if (command >= COMMANDS.length) {
+				out.writeByte(ERR);
+				out.flush();
+				continue;
+			}
+			switch (COMMANDS[command]) {
+
+			case GET_BOT_DIR:
+				Direction dir = sim.direction();
+				byte dir_encoded = (byte) dir.ordinal();
+				out.writeByte(OK);
+				out.writeByte(dir_encoded);
+				out.flush();
+				break;
+
+			case GET_MAP_SIZE:
+				int w = sim.map_width();
+				int h = sim.map_height();
+				out.writeByte(OK);
+				out.writeInt(w);
+				out.writeInt(h);
+				out.flush();
+				break;
+
+			case GET_BOT_POS:
+				int x = sim.x();
+				int y = sim.y();
+				out.writeByte(OK);
+				out.writeInt(x);
+				out.writeInt(y);
+				out.flush();
+				break;
+
+			case DETECT_HAZARD:
+				boolean hazard = sim.detectHazard();
+				out.writeByte(OK);
+				out.writeBoolean(hazard);
+				out.flush();
+				break;
+
+			case DETECT_BLOBS:
+				boolean[] blobs = sim.detectBlobs();
+				out.writeByte(OK);
+				for (boolean blob : blobs) {
+					out.writeBoolean(blob);
+				}
+				out.flush();
+				break;
+
+			case MOVE_FORWARD:
+				if (sim.moveForward()) {
+					out.writeByte(OK);
+				} else {
+					out.writeByte(ERR);
+				}
+				out.flush();
+				break;
+
+			case TURN_CW:
+				sim.turnClockwise();
+				out.writeByte(OK);
+				out.flush();
+				break;
+
+			default:
+				out.writeByte(ERR);
+				out.flush();
+				break;
 			}
 		}
 	}
