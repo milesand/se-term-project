@@ -32,7 +32,7 @@ public class SimProcess {
 	final static byte ERR = 1;
 
 	public static void main(String[] args) {
-		if (args.length != 0) {
+		if (args.length == 0) {
 			System.err.println("Error: Missing port argument");
 			return;
 		}
