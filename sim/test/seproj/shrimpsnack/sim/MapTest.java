@@ -8,6 +8,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 
+import seproj.shrimpsnack.sim.Cell;
+import seproj.shrimpsnack.sim.Map;
+
 class MapTest {
 
 	// Used for single-map tests. Arbitrarily chosen.
