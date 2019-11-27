@@ -3,19 +3,12 @@ package sim;
 import utility.Direction;
 import utility.Pair;
 
-public class SIMConnection {
-	
-	public boolean detect_hazard() { }
-	
-	public boolean[] detect_blob() { }
-	
-	public Pair get_position() { }
-
-	public Direction get_direction() { }
-	
-	public Pair get_size() { }
-	
-	public void move_forward() { }
-	
-	public void turn() { }
+public interface SIMConnection {
+	boolean detect_hazard();
+	boolean[] detect_blob();
+	Pair get_position();
+	Direction get_direction();
+	Pair get_size();
+	void move_forward();
+	void turn();
 }
