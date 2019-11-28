@@ -72,12 +72,15 @@ public class MapManager {
 	}
 
 	public void setHazard(Pair pos) {
+		this.map.get(pos).setHazard(true);
 	}
 
 	public void unsetHazard(Pair pos) {
+		this.map.get(pos).setHazard(false);
 	}
 
 	public MapView mapView() {
+		return new MapView(this.map);
 	}
 
 	public void invalidatePosition() {
