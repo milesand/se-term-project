@@ -11,7 +11,7 @@ public class MapManager {
 	private Pair pos;
 	private Direction dir;
 
-	public void mark_blobs() throws Exception {
+	public void markBlobs() throws Exception {
 		Pair pos = this.position();
 
 		Cell[] unknown_adj_cells = new Cell[4];
@@ -46,7 +46,29 @@ public class MapManager {
 		}
 	}
 
-	public boolean checkHazard() {
+	public boolean checkHazard() throws Exception {
+		Pair pos = this.position();
+		Direction dir = this.direction();
+		Pair forward_pos = new Pair(pos.x + dir.x(), pos.y + dir.y());
+		Cell forward_cell = this.map.get(forward_pos);
+
+		boolean hazard = false;
+		switch (forward_cell.isHazard()) {
+		case Unknown:
+			hazard = this.sim.detectHazard();
+			forward_cell.setHazard(hazard);
+			break;
+
+		case True:
+			hazard = true;
+			break;
+
+		case False:
+			hazard = false;
+			break;
+		}
+
+		return hazard;
 	}
 
 	public void setHazard(Pair pos) {
