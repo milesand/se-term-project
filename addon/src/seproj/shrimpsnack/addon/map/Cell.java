@@ -11,26 +11,29 @@ public class Cell {
 		this.blob = OptionalBool.False;
 	}
 
-	public void setHazard() {
-		this.hazard = OptionalBool.True;
+	public void setHazard(boolean hazard) {
+		if (hazard) {
+			this.hazard = OptionalBool.True;
+			this.blob = OptionalBool.False;
+		} else {
+			this.hazard = OptionalBool.False;
+		}
 	}
 
-	public void setBlob() {
-		this.blob = OptionalBool.True;
+	public void setBlob(boolean blob) {
+		if (blob) {
+			this.hazard = OptionalBool.False;
+			this.blob = OptionalBool.True;
+		} else {
+			this.blob = OptionalBool.False;
+		}
 	}
 
 	public OptionalBool isHazard() {
-		return hazard;
+		return this.hazard;
 	}
 
 	public OptionalBool isBlob() {
-		return blob;
-	}
-
-	public Cell clone() {
-		Cell cell = new Cell();
-		cell.hazard = this.hazard;
-		cell.blob = this.blob;
-		return cell;
+		return this.blob;
 	}
 }
