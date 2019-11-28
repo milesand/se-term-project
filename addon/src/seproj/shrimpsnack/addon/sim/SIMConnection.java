@@ -4,17 +4,17 @@ import seproj.shrimpsnack.addon.utility.Direction;
 import seproj.shrimpsnack.addon.utility.Pair;
 
 public interface SIMConnection {
-	boolean detectHazard();
+	boolean detectHazard() throws Exception;
 
-	boolean[] detectBlob();
+	boolean[] detectBlob() throws Exception;
 
-	Pair getPosition();
+	Pair getPosition() throws Exception;
 
-	Direction getDirection();
+	Direction getDirection() throws Exception;
 
-	Pair getSize();
+	Pair getSize() throws Exception;
 
-	void moveForward();
+	void moveForward() throws Exception;
 
-	void turn();
+	void turn() throws Exception;
 }
