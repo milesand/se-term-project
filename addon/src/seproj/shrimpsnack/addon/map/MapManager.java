@@ -11,6 +11,13 @@ public class MapManager {
 	private Pair pos;
 	private Direction dir;
 
+	public MapManager(SIMConnection sim) throws Exception {
+		this.sim = sim;
+		this.pos = sim.getPosition();
+		this.dir = sim.getDirection();
+		this.map = new Map(sim.getSize());
+	}
+
 	public void markBlobs() throws Exception {
 		Pair pos = this.position();
 

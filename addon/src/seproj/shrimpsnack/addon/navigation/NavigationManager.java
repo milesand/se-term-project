@@ -16,6 +16,14 @@ public class NavigationManager {
 	private Pair prev_pos;
 	private String state;
 
+	public NavigationManager(SIMConnection sim, MapManager mm) {
+		this.sim = sim;
+		this.mm = mm;
+		this.destinations = new PositionList();
+		this.path = new PositionList();
+		this.prev_pos = null;
+	}
+
 	public Pair[] navigate() {
 	}
 

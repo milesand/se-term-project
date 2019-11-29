@@ -10,7 +10,9 @@ public class AddOn {
 	private NavigationManager nm;
 	private MapManager mm;
 
-	public AddOn(SIMConnection sim) {
+	public AddOn(SIMConnection sim) throws Exception {
+		this.mm = new MapManager(sim);
+		this.nm = new NavigationManager(sim, this.mm);
 	}
 
 	public void addDestination(int idx, Pair pos) {
