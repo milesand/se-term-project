@@ -11,6 +11,7 @@ import seproj.shrimpsnack.addon.utility.Pair;
 public class AddOn {
 	private NavigationManager nm;
 	private MapManager mm;
+	private Pair[] hazards;
 
 	public AddOn(SIMConnection sim) throws Exception {
 		this.mm = new MapManager(sim);
@@ -29,8 +30,12 @@ public class AddOn {
 		return this.nm.destinationsView();
 	}
 
-	public void addHazard(Pair pos) {
-		this.mm.setHazard(pos);
+	public void addHazards(Pair[] pos) {
+		hazards = pos;
+		nm.setHazards(hazards);
+		for( Pair p : pos) {
+			this.mm.setHazard(p);
+		}
 	}
 
 	public void removeHazard(Pair pos) {
