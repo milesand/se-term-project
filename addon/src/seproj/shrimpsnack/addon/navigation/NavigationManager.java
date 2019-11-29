@@ -14,6 +14,7 @@ public class NavigationManager {
 	private PositionList destinations;
 	private PositionList path;
 	private Pair prev_pos;
+	private Pair hazards[];
 	private String state;
 
 	public NavigationManager(SIMConnection sim, MapManager mm) {
@@ -24,7 +25,14 @@ public class NavigationManager {
 		this.prev_pos = null;
 	}
 
-	public Pair[] navigate() {
+	public List<Pair> navigate() {
+		// start : sim.getPosition, destination : destinatnios.remove(i)
+		// while : destinations.empty == true
+		// find path
+		// move
+		// if detect hazard : mark hazard, find path
+		// else : continue
+		// if start == end : destination = destinations.remove(i)
 	}
 
 	public void addDestination(int idx, Pair pos) {
@@ -37,6 +45,10 @@ public class NavigationManager {
 
 	public List<Pair> destinationsView() {
 		return this.destinations.view();
+	}
+	
+	public void setHazards(Pair[] hazards) {
+		this.hazards = hazards;
 	}
 
 	private void moveForward() throws Exception {
@@ -53,7 +65,12 @@ public class NavigationManager {
 		this.mm.setDirection(current_dir);
 	}
 
-	private void planPath() {
+	// hazard가 발견했을때 block처리 하는 것 추가 구현 해야함
+	private void planPath(Pair start, Pair destination) throws Exception {
+		Pair size = sim.getSize();
+		Astar astar = new Astar(size, new Node(start), new Node(destination));
+		astar.setBlocks(hazards);
+		path = new PositionList(astar.findPath());
 	}
 
 }
