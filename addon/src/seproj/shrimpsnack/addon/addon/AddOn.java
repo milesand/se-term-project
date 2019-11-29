@@ -46,7 +46,7 @@ public class AddOn {
 		return this.mm.mapView();
 	}
 
-	public Pair[] navigate() {
+	public List<Pair> navigate() {
 		return this.nm.navigate();
 	}
 }
