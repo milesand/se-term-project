@@ -41,7 +41,7 @@ public class AddOn {
 		return this.mm.mapView();
 	}
 
-	public List<Pair> navigate() {
+	public List<Pair> navigate() throws Exception {
 		return this.nm.navigate();
 	}
 }
