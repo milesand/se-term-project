@@ -19,7 +19,10 @@ public class PositionList {
 	public PositionList(Collection<Pair> pos) {
 		this.pos = new ArrayList<Pair>(pos);
 		this.next_idx = 0;
-
+	}
+	
+	public void add(Pair pos) {
+		this.pos.add(pos);
 	}
 
 	public void addPos(int idx, Pair pos) {
@@ -28,6 +31,11 @@ public class PositionList {
 
 	public Pair removePos(int idx) {
 		return this.pos.remove(idx);
+	}
+	
+	public void clear() {
+		this.pos.clear();
+		this.next_idx = 0;
 	}
 
 	public List<Pair> view() {
