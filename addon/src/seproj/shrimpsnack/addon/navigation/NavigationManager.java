@@ -3,6 +3,7 @@ package seproj.shrimpsnack.addon.navigation;
 import java.util.List;
 
 import seproj.shrimpsnack.addon.map.MapManager;
+import seproj.shrimpsnack.addon.map.MapView;
 import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.utility.Direction;
 import seproj.shrimpsnack.addon.utility.Pair;
@@ -14,7 +15,6 @@ public class NavigationManager {
 	private PositionList destinations;
 	private PositionList path;
 	private Pair prev_pos;
-	private Pair hazards[];
 	private String state;
 
 	public NavigationManager(SIMConnection sim, MapManager mm) {
@@ -46,10 +46,6 @@ public class NavigationManager {
 	public List<Pair> destinationsView() {
 		return this.destinations.view();
 	}
-	
-	public void setHazards(Pair[] hazards) {
-		this.hazards = hazards;
-	}
 
 	private void moveForward() throws Exception {
 		this.mm.invalidatePosition();
@@ -65,12 +61,13 @@ public class NavigationManager {
 		this.mm.setDirection(current_dir);
 	}
 
-	// hazard가 발견했을때 block처리 하는 것 추가 구현 해야함
-	private void planPath(Pair start, Pair destination) throws Exception {
-		Pair size = sim.getSize();
-		Astar astar = new Astar(size, new Node(start), new Node(destination));
-		astar.setBlocks(hazards);
-		path = new PositionList(astar.findPath());
+	private void planPath() throws Exception {
+		Pair current_pos = this.mm.position();
+		Pair destination = this.destinations.current();
+		MapView map = this.mm.mapView();
+		
+		List<Pair> path = PathFindingAlgorithm.run(current_pos, destination, map);
+		this.path = new PositionList(path);
 	}
 
 }
