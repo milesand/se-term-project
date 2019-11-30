@@ -137,7 +137,6 @@ public class NavigationManager {
 					this.prev_pos = current_pos;
 					this.mm.invalidatePosition();
 					this.moveForward();
-					this.path.advance();
 					break;
 				}
 
