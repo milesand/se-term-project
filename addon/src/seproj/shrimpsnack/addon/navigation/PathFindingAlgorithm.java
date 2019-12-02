@@ -45,18 +45,19 @@ public class PathFindingAlgorithm {
 					continue;
 				}
 				
-				Cost old_cost = min_actual_cost.get(adj_node);
-				if (old_cost != null && old_cost.le(cost)) {
-					continue;
-				}
 				
 				int turn_cost;
-				if (d.equals(node.last_move_dir)) {
+				if (node.last_move_dir == null || d.equals(node.last_move_dir)) {
 					turn_cost = 0;
 				} else {
 					turn_cost = 1;
 				}
 				Cost adj_cost = cost.add(new Cost(1, turn_cost));
+				Cost old_cost = min_actual_cost.get(adj_node);
+				if (old_cost != null && old_cost.le(adj_cost)) {
+					continue;
+				}
+
 				min_actual_cost.put(adj_node, adj_cost);
 				prev_node.put(adj_node, node);
 				q.insert_or_lower(adj_node, adj_cost.add(adj_node.calculateHeuristic(end)));
@@ -259,7 +260,7 @@ class Cost {
 		if (this.moves != other.moves) {
 			return this.moves <= other.moves;
 		}
-		return this.turns <= other.moves;
+		return this.turns <= other.turns;
 	}
 }
 
