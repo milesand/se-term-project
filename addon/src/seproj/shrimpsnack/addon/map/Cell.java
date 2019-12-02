@@ -7,8 +7,8 @@ public class Cell {
 	private OptionalBool blob;
 
 	public Cell() {
-		this.hazard = OptionalBool.False;
-		this.blob = OptionalBool.False;
+		this.hazard = OptionalBool.Unknown;
+		this.blob = OptionalBool.Unknown;
 	}
 
 	public void setHazard(boolean hazard) {

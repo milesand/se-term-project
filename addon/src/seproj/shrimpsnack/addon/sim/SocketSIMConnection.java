@@ -63,7 +63,7 @@ public class SocketSIMConnection implements SIMConnection {
 	}
 
 	public Pair getPosition() throws IOException {
-		this.out.writeByte(Command.DETECT_BLOBS.ordinal());
+		this.out.writeByte(Command.GET_BOT_POS.ordinal());
 		this.out.flush();
 		if (this.in.readByte() != OK) {
 			throw new SocketSIMConnectionException("SIM returned Error");

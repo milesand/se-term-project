@@ -18,6 +18,9 @@ public class Map {
 
 		this.size = size;
 		this.cells = new Cell[size.x * size.y];
+		for (int i = 0; i < size.x * size.y; i++) {
+			this.cells[i] = new Cell();
+		}
 	}
 
 	public Cell get(Pair pos) {

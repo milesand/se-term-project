@@ -174,7 +174,7 @@ public class SimImpl implements SimInterface {
 	// This method is not specified in the specification and SimInterface, but it's
 	// useful nonetheless.
 	public int map_height() {
-		return this.map_height();
+		return this.map.height();
 	}
 
 	// A pair of x coordinate and y coordinate.
