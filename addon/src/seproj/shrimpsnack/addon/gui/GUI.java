@@ -71,7 +71,7 @@ public class GUI extends JFrame {
 	private List<Pair> hazardList = new ArrayList<>();
 	private List<Pair> blobList = new ArrayList<>();
 	private List<Pair> pathList = new ArrayList<>();
-	private List<Pair> destinationList = new ArrayList<>();
+	private List<Pair> destinationList;
 	
 	
 	public GUI() {	
@@ -163,19 +163,41 @@ public class GUI extends JFrame {
 		destinationList.add(new Pair(250, 175));
 		
 		// set map size
-		// set start position
-		// set destinations
-		// set hazards
-		// set blobs
-		// set random hazards
-		// set random blobs
-		// while : visit all destinations
-		// plan path
-		// turn
-		// move forward
-		// detect hazard
-		// detect blob
+		// sim -> mapsize : AddOn.MAP_SIZE
 		
+		// set start position
+		// start position : AddOn.START_POSITION
+		robotX = AddOn.START_POSITION.x;
+		robotY = AddOn.START_POSITION.y;
+		
+		// set destinations
+		// addon.addDestination(idx, pos), idx : 0 ~ 2
+		addon.addDestination(0, new Pair(20, 60));
+		addon.addDestination(1, new Pair(120, 160));
+		addon.addDestination(2, new Pair(220, 260));
+		destinationList = addon.destinationsView();
+		
+		// set hazards
+		// addon.addHazard(pos) // num : 3
+		addon.addHazard(new Pair(520, 360));
+		hazardList = addon.hazardView();
+		
+		// map initialize
+		// sim이 하는 것? set unknown hazard and blobs
+		
+		try {
+			// while : visit all destinations
+			while (addon.navigate() != null) {
+				// addon.navigate : plan path + detect blobs + detect hazard + turn + 1 move
+				// path를 얻어와 pathList에 add
+				// direction을 얻오와 turn(dirction) 
+				// moveforward실행
+				// detect된 blob을 blobList에 add
+				// detect된 hazard를 addon.addHazard() 후 hazardList = addon.hazardView() 수행
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -220,25 +242,60 @@ public class GUI extends JFrame {
 	
 	// move robot
 	private void moveLeft() { 
-		if(robotX > 110)
+		if(robotX > 110) {
 			robotX -= 99;
+			robot = robotLeft;
+		}
 	}
 	private void moveRight() { 
-		if(robotX < 770)
+		if(robotX < 770) {
 			robotX += 99;
+			robot = robotRight;
+		}
 	}
 	private void moveUp() { 
-		if(robotY > 120)
+		if(robotY > 120) {
 			robotY -= 99;
+			robot = robotUp;
+		}
 	}
 	private void moveDown() {
-		if(robotY < 730)
+		if(robotY < 730) {
 			robotY += 99;
+			robot = robotDown;
+		}
 	}
 	
-	private void turn() {
-		// switch driction
-		// robot = robotUp..
+	private void turn(Direction d) {
+		switch(d) {
+		case N:
+			robot = robotUp;
+			break;
+		case E :
+			robot = robotRight;
+			break;
+		case W :
+			robot = robotLeft;
+			break;
+		case S :
+			robot = robotDown;
+			break;
+		}
+	}
+	
+	private void moveForward() {
+		if(robot.equals(robotUp)) {
+			moveUp();
+		}
+		else if(robot.equals(robotDown)) {
+			moveDown();
+		}
+		else if(robot.equals(robotLeft)) {
+			moveLeft();
+		}
+		else if(robot.equals(robotRight)) {
+			moveRight();
+		}
 	}
 	
 

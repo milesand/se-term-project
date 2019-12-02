@@ -9,6 +9,9 @@ import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.utility.Pair;
 
 public class AddOn {
+	public static final Pair START_POSITION = new Pair(46, 775);
+	public static final Pair MAP_SIZE = new Pair(8, 8);
+	
 	private NavigationManager nm;
 	private MapManager mm;
 
@@ -35,6 +38,10 @@ public class AddOn {
 
 	public void removeHazard(Pair pos) {
 		this.mm.unsetHazard(pos);
+	}
+	
+	public List<Pair> hazardView() {
+		return this.mm.hazardView();
 	}
 
 	public MapView mapView() {

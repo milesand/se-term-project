@@ -1,5 +1,9 @@
 package seproj.shrimpsnack.addon.map;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.utility.Direction;
 import seproj.shrimpsnack.addon.utility.OptionalBool;
@@ -10,6 +14,7 @@ public class MapManager {
 	private Map map;
 	private Pair pos;
 	private Direction dir;
+	private List<Pair> hazardList = new ArrayList<>();
 
 	public MapManager(SIMConnection sim) throws Exception {
 		this.sim = sim;
@@ -80,11 +85,18 @@ public class MapManager {
 
 	public void setHazard(Pair pos) {
 		this.map.get(pos).setHazard(true);
+		hazardList.add(pos);
 	}
 
 	public void unsetHazard(Pair pos) {
 		this.map.get(pos).setHazard(false);
+		hazardList.remove(pos);
 	}
+	
+	public List<Pair> hazardView() {
+		return Collections.unmodifiableList(hazardList);
+	}
+	
 
 	public MapView mapView() {
 		return new MapView(this.map);

@@ -28,7 +28,7 @@ public class NavigationManager {
 
 	public List<Pair> navigate() throws Exception {
 
-		ArrayList<Pair> history = new ArrayList<Pair>();
+		ArrayList<Pair> history = new ArrayList<Pair>(); //
 		Pair current_dst = this.destinations.current();
 		if (current_dst == null) { // Destination list was empty, we're done exploring 'all' of them
 			return history;
@@ -36,8 +36,8 @@ public class NavigationManager {
 
 		while (true) {
 			Pair current_pos = this.mm.position();
-			history.add(current_pos);
-			this.mm.markBlobs();
+			history.add(current_pos); 
+			this.mm.markBlobs(); // detect and mark blobs
 
 			if (current_dst.equals(current_pos)) {
 				// Our current path leads to our current destination, which we've reached.
@@ -47,7 +47,7 @@ public class NavigationManager {
 				// Loop, because some madman might have queued the same position
 				// multiple times consecutively.
 				do {
-					this.destinations.advance();
+					this.destinations.advance(); // increase index
 					current_dst = this.destinations.current();
 					if (current_dst == null) {
 						return history;
