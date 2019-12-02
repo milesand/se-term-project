@@ -8,4 +8,17 @@ public class Pair {
 		this.x = x;
 		this.y = y;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+	    if (this == other)
+	        return true;
+	    if (other == null)
+	        return false;
+	    if (getClass() != other.getClass())
+	        return false;
+	    Pair otherp = (Pair) other;
+	    // field comparison
+	    return this.x == otherp.x && this.y == otherp.y;
+	}
 }
