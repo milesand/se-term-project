@@ -56,7 +56,7 @@ public class SimImpl implements SimInterface {
 					throw new IllegalArgumentException(String
 							.format("Overlapping coordinates (%d, %d) for hazards and color blobs", coord.x, coord.y));
 				}
-				this.map.set(x, y, Cell.COLOR_BLOB);
+				this.map.set(coord.x, coord.y, Cell.COLOR_BLOB);
 			});
 		}
 
