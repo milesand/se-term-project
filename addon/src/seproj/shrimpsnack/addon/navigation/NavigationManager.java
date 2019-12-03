@@ -1,6 +1,5 @@
 package seproj.shrimpsnack.addon.navigation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seproj.shrimpsnack.addon.map.MapManager;
@@ -183,7 +182,7 @@ public class NavigationManager {
 		default:
 			// Should be unreachable
 			throw new RuntimeException(String.format("Unhandled NavigationManager state: %s", this.state));
-		}		
+		}
 	}
 
 	public void addDestination(int idx, Pair pos) {

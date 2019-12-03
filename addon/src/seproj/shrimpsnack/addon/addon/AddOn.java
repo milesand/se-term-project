@@ -5,6 +5,7 @@ import java.util.List;
 import seproj.shrimpsnack.addon.map.MapManager;
 import seproj.shrimpsnack.addon.map.MapView;
 import seproj.shrimpsnack.addon.navigation.NavigationManager;
+import seproj.shrimpsnack.addon.navigation.NavigationStepResult;
 import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.utility.Pair;
 
@@ -41,7 +42,7 @@ public class AddOn {
 		return this.mm.mapView();
 	}
 
-	public List<Pair> navigate() throws Exception {
+	public NavigationStepResult navigate() throws Exception {
 		return this.nm.navigate();
 	}
 }

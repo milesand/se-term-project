@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 
 import seproj.shrimpsnack.addon.addon.AddOn;
 import seproj.shrimpsnack.addon.map.MapView;
+import seproj.shrimpsnack.addon.navigation.NavigationStepResult;
 import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.sim.SocketSIMConnection;
 import seproj.shrimpsnack.addon.utility.Direction;
@@ -71,6 +72,8 @@ public class GUI extends JFrame {
 	private int mouseX, mouseY;
 	private boolean isFinish = false;
 	
+	private Pair robotPos = new Pair(0, 0);
+	private Direction robotDir = Direction.N;
 	private List<Pair> pathList = new ArrayList<>();
 	private List<Pair> destinationList = new ArrayList<>();
 	
@@ -135,7 +138,13 @@ public class GUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {	
 				try {
-					pathList = addon.navigate();
+					NavigationStepResult nsr = addon.navigate();
+					robotPos = nsr.robot_pos;
+					robotDir = nsr.robot_dir;
+					destinationList = nsr.remaining_destinations;
+					pathList = nsr.remaining_path;
+					mv = nsr.map_view;
+					
 					if(pathList.isEmpty()) {
 						isFinish = true;
 					}
@@ -197,7 +206,8 @@ public class GUI extends JFrame {
 		g.drawImage(background, 0, 40, null); //generally, we use drawImage to draw moving images
 		if(sim != null)  {
 			turn();
-			g.drawImage(robot, getCoord(sim.getPosition()).x, getCoord(sim.getPosition()).y, null);
+//			g.drawImage(robot, getCoord(sim.getPosition()).x, getCoord(sim.getPosition()).y, null);
+			g.drawImage(robot, getCoord(robotPos).x, getCoord(robotPos).y, null);
 		}
 		
 		for (Pair destination : destinationList) {
@@ -246,7 +256,7 @@ public class GUI extends JFrame {
 	}
 	
 	private void turn() throws Exception {
-		switch(sim.getDirection()) {
+		switch(robotDir) {
 		case N:
 			robot = robotUp;
 			break;
