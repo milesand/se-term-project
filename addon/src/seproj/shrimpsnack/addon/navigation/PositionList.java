@@ -21,12 +21,16 @@ public class PositionList {
 		this.next_idx = 0;
 	}
 	
-	public void add(Pair pos) {
+	public void addPos(Pair pos) {
 		this.pos.add(pos);
 	}
 
 	public void addPos(int idx, Pair pos) {
 		this.pos.add(idx, pos);
+	}
+	
+	public Pair removePos() {
+		return this.pos.remove(this.pos.size());
 	}
 
 	public Pair removePos(int idx) {
@@ -39,8 +43,7 @@ public class PositionList {
 	}
 
 	public List<Pair> view() {
-//		return Collections.unmodifiableList(this.pos);
-		return pos;
+		return Collections.unmodifiableList(this.pos);
 	}
 
 	public Pair current() {
@@ -56,11 +59,11 @@ public class PositionList {
 		}
 	}
 	
-	public List<Pair> prev_list() {
+	public List<Pair> prevList() {
 		return Collections.unmodifiableList(this.pos.subList(0, this.next_idx));
 	}
 	
-	public List<Pair> remaining_list() {
+	public List<Pair> remainingList() {
 		return Collections.unmodifiableList(this.pos.subList(this.next_idx, this.pos.size()));
 	}
 }
