@@ -1,6 +1,5 @@
 package seproj.shrimpsnack.addon.navigation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import seproj.shrimpsnack.addon.map.MapManager;
@@ -179,7 +178,9 @@ public class NavigationManager {
 			this.path.advance();
 			this.state = State.DETECTED_HAZARD;
 			return this.navStepResult();
-		}		
+		default:
+			return null;
+		}
 	}
 
 	public void addDestination(int idx, Pair pos) {
