@@ -64,7 +64,6 @@ public class NavigationManager {
 				// Loop, because some madman might have queued the same position
 				// multiple times consecutively.
 				do {
-					this.destinations.advance();
 					current_dst = this.destinations.current();
 					if (current_dst == null) { // Last destination reached.
 						this.state = State.NOT_NAVIGATING;
