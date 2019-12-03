@@ -32,11 +32,12 @@ public class NavigationManager {
 		this.destinations = new PositionList();
 		this.path = new PositionList();
 		this.prev_pos = null;
+		this.state = State.NOT_NAVIGATING;
 	}
 	
 	private NavigationStepResult navStepResult() throws Exception {
-		return new NavigationStepResult(this.mm.position(), this.mm.direction(), this.path.remaining_list(),
-				this.destinations.prev_list(), this.destinations.remaining_list(), this.mm.mapView());
+		return new NavigationStepResult(this.mm.position(), this.mm.direction(), this.path.remainingList(),
+				this.destinations.prevList(), this.destinations.remainingList(), this.mm.mapView());
 	}
 
 	public NavigationStepResult navigate() throws Exception {
@@ -179,6 +180,9 @@ public class NavigationManager {
 			this.path.advance();
 			this.state = State.DETECTED_HAZARD;
 			return this.navStepResult();
+		default:
+			// Should be unreachable
+			throw new RuntimeException(String.format("Unhandled NavigationManager state: %s", this.state));
 		}		
 	}
 
