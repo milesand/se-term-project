@@ -39,7 +39,8 @@ public class PositionList {
 	}
 
 	public List<Pair> view() {
-		return Collections.unmodifiableList(this.pos);
+//		return Collections.unmodifiableList(this.pos);
+		return pos;
 	}
 
 	public Pair current() {

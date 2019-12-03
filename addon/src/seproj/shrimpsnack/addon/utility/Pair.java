@@ -8,7 +8,6 @@ public class Pair {
 		this.x = x;
 		this.y = y;
 	}
-	
 	@Override
 	public boolean equals(Object other) {
 	    if (this == other)

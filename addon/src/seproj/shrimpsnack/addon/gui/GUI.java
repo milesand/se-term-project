@@ -18,8 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import seproj.shrimpsnack.addon.addon.AddOn;
+import seproj.shrimpsnack.addon.map.MapView;
+import seproj.shrimpsnack.addon.sim.SIMConnection;
 import seproj.shrimpsnack.addon.sim.SocketSIMConnection;
 import seproj.shrimpsnack.addon.utility.Direction;
+import seproj.shrimpsnack.addon.utility.OptionalBool;
 import seproj.shrimpsnack.addon.utility.Pair;
 
 public class GUI extends JFrame {
@@ -27,7 +30,10 @@ public class GUI extends JFrame {
 	public static final int SCREEN_WIDTH = 880;
 	public static final int SCREEN_HEIGHT = 1000;
 	
+	public static final Pair START_POSITION = new Pair(0, 0); 
+	
 	private AddOn addon;
+	private SIMConnection sim;
 	
 	private Image screenImage;
 	private Graphics screenGraphic;
@@ -39,19 +45,16 @@ public class GUI extends JFrame {
 	private Image robotDown = new ImageIcon(GUI.class.getResource("/image/robotDown.png")).getImage();
 	private Image robotLeft = new ImageIcon(GUI.class.getResource("/image/robotLeft.png")).getImage();
 	private Image robotRight = new ImageIcon(GUI.class.getResource("/image/robotRight.png")).getImage();
-	private int robotWidth = 100;
 	
 	private Image hazardImage = new ImageIcon(GUI.class.getResource("/image/hazard.png")).getImage();
-	private int hazardWidth = 80;
 	
 	private Image blobImage = new ImageIcon(GUI.class.getResource("/image/blob.png")).getImage();
-	private int blobWidth = 80;
 	
 	private Image pathImage = new ImageIcon(GUI.class.getResource("/image/path.png")).getImage();
-	private int pathWidth = 120;
 	
 	private Image destinationImage = new ImageIcon(GUI.class.getResource("/image/destination.png")).getImage();
-	private int destinationWidth = 80;
+	
+	private Image finishImage = new ImageIcon(GUI.class.getResource("/image/finish.png")).getImage();
 	
 	private JLabel menuBar = new JLabel(new ImageIcon(GUI.class.getResource("/image/bar.png")));
 
@@ -66,12 +69,12 @@ public class GUI extends JFrame {
 	
 	//Make the screen move when we drag menu bar
 	private int mouseX, mouseY;
-	private int robotX = 46, robotY = 775;
+	private boolean isFinish = false;
 	
-	private List<Pair> hazardList = new ArrayList<>();
-	private List<Pair> blobList = new ArrayList<>();
 	private List<Pair> pathList = new ArrayList<>();
 	private List<Pair> destinationList = new ArrayList<>();
+	
+	private MapView mv = null;
 	
 	
 	public GUI() {	
@@ -85,11 +88,23 @@ public class GUI extends JFrame {
 		setBackground(new Color(0, 0, 0, 0)); // paintcomponent changes to white
 		setLayout(null); // button and layout gets located right on spot we declared
 		
-		robot = robotRight;
+		robot = robotUp;
 		
-		// AddOn
+//		 AddOn
 		try {
-		addon = new AddOn(new SocketSIMConnection("host", 1));
+			sim = new SocketSIMConnection.Builder("localhost", 3000)
+					.mapSize(new Pair(8, 8))
+					.robotPosition(START_POSITION)
+					.robotDirection(Direction.N)
+					.addHazard(new Pair(3, 2))
+					.addHazard(new Pair(6, 7))
+					.addHazard(new Pair(0, 5))
+					.addHazard(new Pair(1, 4))
+					.addBlob(new Pair(1, 1))
+					.addBlob(new Pair(3, 4))
+					.addBlob(new Pair(5, 4))
+					.build();
+			addon = new AddOn(sim);
 		} catch(UnknownHostException uhe) {
 			uhe.printStackTrace();
 		} catch(IOException ie) {
@@ -118,9 +133,15 @@ public class GUI extends JFrame {
 		moveButton.setFocusPainted(false);
 		moveButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				// navigate
-				moveRight();
+			public void mouseClicked(MouseEvent e) {	
+				try {
+					pathList = addon.navigate();
+					if(pathList.isEmpty()) {
+						isFinish = true;
+					}
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
 			}
 		});
 		add(moveButton);
@@ -145,66 +166,72 @@ public class GUI extends JFrame {
 		});
 		add(menuBar); // adds menubar to jframe
 		
-		// temp function
-		// get cell position
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int x = e.getX();
-				int y = e.getY();
-				System.out.println("x :"+x+", y :"+y);
-			}
-		});
-		
-		
-		hazardList.add(new Pair(20, 60));
-		blobList.add(new Pair(135, 60));
-		pathList.add(new Pair(135, 175));
-		destinationList.add(new Pair(250, 175));
-		
-		// set map size
-		// set start position
 		// set destinations
-		// set hazards
-		// set blobs
-		// set random hazards
-		// set random blobs
-		// while : visit all destinations
-		// plan path
-		// turn
-		// move forward
-		// detect hazard
-		// detect blob
+		addon.addDestination(0, new Pair(1, 2));
+		addon.addDestination(1, new Pair(2, 5));
+		addon.addDestination(2, new Pair(7, 7));
+		destinationList = addon.destinationsView();
 		
+		// set hazards
+		addon.addHazard(new Pair(3, 2));
+		addon.addHazard(new Pair(6, 7));
+		addon.addHazard(new Pair(0, 5));
+		
+		mv = addon.mapView();
 	}
 	
 	
 	public void paint(Graphics g) {
 		screenImage = createImage(GUI.SCREEN_WIDTH, GUI.SCREEN_HEIGHT); // create image by the screen size
 		screenGraphic = screenImage.getGraphics();
-		screenDraw((Graphics2D) screenGraphic); // Graphics2D is needed to printString nicely on the screen (otherwise it cracks)
+		try {
+			screenDraw((Graphics2D) screenGraphic); // Graphics2D is needed to printString nicely on the screen (otherwise it cracks)
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		g.drawImage(screenImage, 0, 0, null); // draw screenImage at point (0,0)
 	}
 	
 	// double buffering
-	public void screenDraw(Graphics2D g) {
+	public void screenDraw(Graphics2D g) throws Exception{
 		g.drawImage(background, 0, 40, null); //generally, we use drawImage to draw moving images
-		g.drawImage(robot,robotX, robotY, null);
+		if(sim != null)  {
+			turn();
+			g.drawImage(robot, getCoord(sim.getPosition()).x, getCoord(sim.getPosition()).y, null);
+		}
 		
 		for (Pair destination : destinationList) {
-			g.drawImage(destinationImage, destination.x, destination.y, null);
+			Pair p = getCoord(destination);
+			g.drawImage(destinationImage, p.x, p.y, null);
 		}
 		
-		for (Pair hazard : hazardList) {
-			g.drawImage(hazardImage, hazard.x, hazard.y, null);
+
+		if (mv != null) {
+			for (int i = 0; i < mv.getSize().y; i++) {
+				for (int j = 0; j < mv.getSize().x; j++) {
+					Pair p = new Pair(i, j);
+					// draw hazard
+					if (mv.get(p).isHazard().equals(OptionalBool.True)) {
+						g.drawImage(hazardImage, getCoord(p).x, getCoord(p).y, null);
+					}
+					
+					//draw blob
+					if (mv.get(p).isBlob().equals(OptionalBool.True)) {
+						g.drawImage(blobImage, getCoord(p).x, getCoord(p).y, null);
+					}
+				}
+			}
 		}
 		
-		for (Pair blob : blobList) {
-			g.drawImage(blobImage, blob.x, blob.y, null);
-		}		
+		if (pathList != null) {
+			for (Pair p : pathList) {
+				Pair tp = getCoord(p);
+				g.drawImage(pathImage, tp.x, tp.y, null);
+			}
+		}
 		
-		for (Pair path : pathList) {
-			g.drawImage(pathImage, path.x, path.y, null);
+		if(isFinish) {
+			g.drawImage(finishImage, 130, 400, null);
 		}
 		
 		paintComponents(g); // draws the images in the screen image (menubar stays constant; doesn't change. therefore use paintcomponent not drawimage), draws all the "add()" components
@@ -218,33 +245,33 @@ public class GUI extends JFrame {
 		this.repaint(); 
 	}
 	
-	// move robot
-	private void moveLeft() { 
-		if(robotX > 110)
-			robotX -= 99;
-	}
-	private void moveRight() { 
-		if(robotX < 770)
-			robotX += 99;
-	}
-	private void moveUp() { 
-		if(robotY > 120)
-			robotY -= 99;
-	}
-	private void moveDown() {
-		if(robotY < 730)
-			robotY += 99;
-	}
-	
-	private void turn() {
-		// switch driction
-		// robot = robotUp..
+	private void turn() throws Exception {
+		switch(sim.getDirection()) {
+		case N:
+			robot = robotUp;
+			break;
+		case E :
+			robot = robotRight;
+			break;
+		case W :
+			robot = robotLeft;
+			break;
+		case S :
+			robot = robotDown;
+			break;
+		}
 	}
 	
+	private Pair getCoord(Pair pair) {
+		int x = 42 + pair.x*99;
+		int y = 777 - pair.y*99;
+		return new Pair(x, y);
+	}
 
 	// main
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{	
 		new GUI();
+		
 	}
 }
 
