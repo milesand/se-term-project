@@ -44,8 +44,7 @@ public class PathFindingAlgorithm {
 				if (cell.isHazard().equals(OptionalBool.True)) {
 					continue;
 				}
-				
-				
+
 				int turn_cost;
 				if (node.last_move_dir == null || d.equals(node.last_move_dir)) {
 					turn_cost = 0;
