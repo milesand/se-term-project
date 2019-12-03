@@ -55,4 +55,12 @@ public class PositionList {
 			this.next_idx++;
 		}
 	}
+	
+	public List<Pair> prev_list() {
+		return Collections.unmodifiableList(this.pos.subList(0, this.next_idx));
+	}
+	
+	public List<Pair> remaining_list() {
+		return Collections.unmodifiableList(this.pos.subList(this.next_idx, this.pos.size()));
+	}
 }

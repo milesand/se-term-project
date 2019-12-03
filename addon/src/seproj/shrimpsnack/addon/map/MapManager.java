@@ -18,7 +18,7 @@ public class MapManager {
 		this.map = new Map(sim.getSize());
 	}
 
-	public void markBlobs() throws Exception {
+	public boolean markBlobs() throws Exception {
 		Pair pos = this.position();
 
 		Cell[] unknown_adj_cells = new Cell[4];
@@ -41,16 +41,19 @@ public class MapManager {
 		}
 
 		if (!found_unknown) {
-			return;
+			return false;
 		}
 
 		boolean[] blobs = this.sim.detectBlob();
+		boolean blob_any = false;
 		for (int i = 0; i < 4; i++) {
 			if (unknown_adj_cells[i] == null) {
 				continue;
 			}
 			unknown_adj_cells[i].setBlob(blobs[i]);
+			blob_any = blob_any | blobs[i];
 		}
+		return blob_any;
 	}
 
 	public boolean checkHazard() throws Exception {
