@@ -60,7 +60,6 @@ public class NavigationManager {
 				// Our current path leads to our current destination, which we've reached.
 				// Clear our path, to signal to later code that a new path must be planned.
 				this.path.clear();
-				this.destinations.removePos(0);
 				// Loop, because some madman might have queued the same position
 				// multiple times consecutively.
 				do {
